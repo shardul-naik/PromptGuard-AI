@@ -27,6 +27,7 @@ class PromptGuardPipeline:
         user_prompt: str,
         document_text: str,
         on_progress: ProgressCallback,
+        document_size_bytes: int | None = None,
     ) -> dict[str, Any]:
 
         prompt = (
@@ -221,7 +222,8 @@ class PromptGuardPipeline:
         )
 
         routing_result = select_tier(
-            analysis_result
+            analysis_result,
+            document_size_bytes=document_size_bytes,
         )
 
         on_progress(

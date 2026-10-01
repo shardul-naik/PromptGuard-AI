@@ -145,6 +145,11 @@ def run_pipeline_job(
             user_prompt=user_prompt,
             document_text=document_text,
             on_progress=callback,
+            document_size_bytes=(
+                len(document_bytes)
+                if document_bytes is not None
+                else None
+            ),
         )
 
         with JOBS_LOCK:
