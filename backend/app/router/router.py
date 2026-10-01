@@ -34,17 +34,21 @@ def select_tier(
 
     model = get_model_for_tier(tier)
 
+    if document_size_bytes is None:
+        policy_reason = f"No document attached; using Tier 3 ({tier})."
+    else:
+        tier_label = "Tier 1" if tier == "LOW" else "Tier 2"
+        policy_reason = (
+            f"Document size is {document_size_bytes} bytes; "
+            f"using the {tier_label} ({tier}) demo rule."
+        )
+
     reason = (
         f"Task: {analysis['task_type']}. "
         f"Complexity: {complexity}/10. "
         f"Reasoning: {reasoning}. "
         f"Estimated context: {context_tokens} tokens. "
-        (
-            f"No document attached; using Tier 3 ({tier})."
-            if document_size_bytes is None
-            else f"Document size is {document_size_bytes} bytes; "
-            f"using the {'Tier 1' if tier == 'LOW' else 'Tier 2'} ({tier}) demo rule."
-        )
+        f"{policy_reason}"
     )
 
     return {
